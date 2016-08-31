@@ -11,6 +11,10 @@ create or replace PACKAGE pkg_test IS
     o_arr_obj_test in out arr_obj_test,
     o_result       OUT VARCHAR2
   );
+  procedure test_integer_object(
+    p_obj_person in out obj_person,
+    p_result out varchar2
+  );
   
 END;
 /
@@ -66,6 +70,24 @@ create or replace PACKAGE BODY pkg_test IS
     ROLLBACK;
     o_result := sqlerrm || chr(10) || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
   end test_inout_array_object;
+  
+  
+  procedure test_integer_object(
+    p_obj_person in out obj_person,
+    p_result out varchar2
+  ) is
+  begin
+	p_obj_person.name := 'Name ' || p_obj_person.id;
+	if (p_obj_person.age is not null) then
+	  p_obj_person.age := p_obj_person.age + 1;
+	else
+	  p_obj_person.age := 19;
+	end if;
+	p_result := 'OK';
+  EXCEPTION WHEN OTHERS THEN
+    ROLLBACK;
+    p_result := sqlerrm || chr(10) || DBMS_UTILITY.FORMAT_ERROR_BACKTRACE;
+  end test_integer_object;
 END;
 /
 
