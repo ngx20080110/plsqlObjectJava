@@ -34,7 +34,15 @@ public class Player implements Comparable<Player> {
 	}
 	@Override
 	public String toString() {
-		return "Player [name=" + name + ", killTime=" + killTime + ", matchs=" + matchs + "]";
+		return "Player [name=" + name + ", killTime=" + killTime + ", matchs[" + getMatchSize() + "]=" + matchs + "]";
+	}
+	private int getMatchSize() {
+		if (matchs == null) {
+			return 0;
+		}
+		else {
+			return matchs.size();
+		}
 	}
 	@Override
 	public int compareTo(Player o) {

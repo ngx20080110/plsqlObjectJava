@@ -1,7 +1,7 @@
 package com.ngx20080110.doublekill;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +10,7 @@ public class Game {
 	public static void main(String[] args) {
 		Game game;
 		try {
-			game = new Game(4);
+			game = new Game(64);
 			game.process();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -19,24 +19,55 @@ public class Game {
 	
 	public void process() throws Exception {
 		System.out.println("Game start");
-		
+
+		boolean printWinner = false;
+		boolean printLoser = false;
 		while (players.size() > 1) {
-			for (int i = 0; i < players.size(); i += 2) {
+			printWinner = false;
+			printLoser = false;
+			for (int i = 0; i < players.size(); ) {
 				Match match = new Match();
-				match.setP1(players.get(i));
-				match.setP2(players.get(i + 1));
-				match.fight();
+				Player p1 = players.get(i);
+				Player p2 = null;
+				if (players.size() == 2) {
+					match.setP1(players.get(i));
+					match.setP2(players.get(i + 1));
+					match.fight();
+					i += 2;
+				}
+				else {
+					if (i < players.size() - 1) {
+						p2 = players.get(i + 1);
+					}
+					if (p2 != null && p2.getKillTime() == p1.getKillTime()) {
+						match.setP1(p1);
+						match.setP2(p2);
+						match.fight();
+						i += 2;
+					}
+					else {
+						i++;
+					}
+				}
 			}
 			
-//			for (Player player : players) {
-//				if (player.getKillTime() == 2) {
-//					players.remove(player);
-//				}
-//			}
-			
 			// Resort
-			Arrays.sort(players.toArray());
-			// TODO
+			Collections.sort(players, new SortPlayer());
+			System.out.println("==================");
+			for (Player player : players) {
+				if (player.getKillTime() == 0 && !printWinner) {
+					System.out.println("-----Winner group----");
+					printWinner = true;
+				}
+				if (player.getKillTime() == 1 && !printLoser) {
+					System.out.println("-----Loser group----");
+					printLoser = true;
+				}
+				if (player.getKillTime() < 2) {
+					System.out.println(player.getName());
+				}
+			}
+			System.out.println("-----------------");
 			
 			Iterator<Player> iterator = players.iterator();
 			while (iterator.hasNext()) {
