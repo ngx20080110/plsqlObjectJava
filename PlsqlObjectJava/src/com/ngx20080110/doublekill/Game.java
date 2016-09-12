@@ -69,6 +69,7 @@ public class Game {
 			}
 			System.out.println("-----------------");
 			
+			
 			Iterator<Player> iterator = players.iterator();
 			while (iterator.hasNext()) {
 				Player player = iterator.next();
