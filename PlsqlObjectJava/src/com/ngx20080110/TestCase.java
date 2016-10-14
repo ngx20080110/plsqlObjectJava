@@ -16,8 +16,8 @@ public abstract class TestCase {
 		
 		try {
 			//Connection
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@10.225.8.96:1521:ICIST3", "lyodba", "lyo");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@10.225.8.96:1521:ICIST6", "lyodba", "lyo");
 			
 			dbAction(conn, cs);
 		}
